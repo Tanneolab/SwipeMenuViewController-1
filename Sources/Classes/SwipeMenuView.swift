@@ -15,6 +15,7 @@ public struct SwipeMenuViewOptions {
       case underline
       case circle
       case none
+      case topUp
     }
     
     public struct ItemView {
@@ -54,6 +55,10 @@ public struct SwipeMenuViewOptions {
         public var cornerRadius: CGFloat? = nil
       }
       
+      public struct TopUp {
+        public var height: CGFloat = 2.0
+      }
+      
       /// AdditionView side margin. Defaults to `0.0`.
       @available(*, deprecated, message: "Use `SwipeMenuViewOptions.TabView.AdditionView.padding` instead.")
       public var margin: CGFloat = 0.0
@@ -72,6 +77,10 @@ public struct SwipeMenuViewOptions {
       
       /// Circle style options.
       public var circle = Circle()
+      
+      public var topup = TopUp()
+      
+      public var backgroundImage: UIImage?
     }
     
     /// TabView height. Defaults to `44.0`.
@@ -339,7 +348,7 @@ open class SwipeMenuView: UIView {
     tabView.translatesAutoresizingMaskIntoConstraints = false
     
     NSLayoutConstraint.activate([
-      tabView.topAnchor.constraint(equalTo: self.topAnchor),
+      tabView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
       tabView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
       // change to get right space
       // tabView.trailingAnchor.constraint(equalTo: self.trailingAnchor),

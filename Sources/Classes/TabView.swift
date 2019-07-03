@@ -174,7 +174,7 @@ open class TabView: UIScrollView {
         switch options.addition {
         case .underline:
             containerHeight = frame.height - options.additionView.underline.height - options.additionView.padding.bottom
-        case .none, .circle:
+        case .none, .circle, .topUp:
             containerHeight = frame.height
         }
 
@@ -278,7 +278,7 @@ open class TabView: UIScrollView {
         
         let heightConstraint: NSLayoutConstraint
         switch options.addition {
-        case .underline:
+        case .underline, .topUp:
             heightConstraint = containerView.heightAnchor.constraint(equalToConstant: options.height - options.additionView.underline.height - options.additionView.padding.bottom)
         case .circle, .none:
             heightConstraint = containerView.heightAnchor.constraint(equalToConstant: options.height)
@@ -351,9 +351,25 @@ extension TabView {
         if itemViews.isEmpty { return }
 
         switch options.addition {
+        case .topUp:
+          let itemView = itemViews[currentIndex]
+          let imageView = UIImageView(image: options.additionView.backgroundImage)
+          
+          imageView.contentMode = .center
+          
+          additionView = UIView(frame: CGRect(x: 0,
+                                              y: 0,
+                                              width: itemView.frame.width - options.additionView.padding.horizontal,
+                                              height: options.additionView.topup.height))
+          
+          imageView.frame = CGRect(x: additionView.frame.width/2 - 10, y: -5, width: 20, height: 20)
+          additionView.addSubview(imageView)
+          
+          additionView.backgroundColor = .clear//options.additionView.backgroundColor
+          containerView.addSubview(additionView)
         case .underline:
             let itemView = itemViews[currentIndex]
-            additionView = UIView(frame: CGRect(x: itemView.frame.origin.x + options.additionView.padding.left, y: itemView.frame.height - options.additionView.padding.vertical, width: itemView.frame.width - options.additionView.padding.horizontal, height: options.additionView.underline.height))
+            additionView = UIView(frame: CGRect(x: itemView.frame.origin.x + options.additionView.padding.left, y: itemView.frame.origin.y + options.additionView.padding.vertical, width: itemView.frame.width - options.additionView.padding.horizontal, height: options.additionView.underline.height))
             additionView.backgroundColor = options.additionView.backgroundColor
             containerView.addSubview(additionView)
         case .circle:
@@ -362,7 +378,9 @@ extension TabView {
             additionView = UIView(frame: CGRect(x: itemView.frame.origin.x + options.additionView.padding.left, y: 0, width: itemView.frame.width - options.additionView.padding.horizontal, height: height))
             additionView.layer.position.y = itemView.layer.position.y
             additionView.layer.cornerRadius = options.additionView.circle.cornerRadius ?? additionView.frame.height / 2
-            additionView.backgroundColor = options.additionView.backgroundColor
+             additionView.layer.borderWidth = 1
+             additionView.layer.borderColor = UIColor.white.cgColor
+              additionView.backgroundColor = options.additionView.backgroundColor
             containerView.addSubview(additionView)
             containerView.sendSubviewToBack(additionView)
         case .none:
@@ -507,7 +525,7 @@ extension TabView {
     private func moveTabItem(index: Int, animated: Bool) {
 
         switch options.addition {
-        case .underline, .circle:
+        case .underline, .circle, .topUp:
             animateAdditionView(index: index, animated: animated, completion: nil)
         case .none:
             update(index)

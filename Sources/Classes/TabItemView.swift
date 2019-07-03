@@ -16,9 +16,12 @@ final class TabItemView: UIView {
       if isSelected {
         titleLabel.textColor = selectedTextColor
         container.backgroundColor = selectedBackgroundColor
+        container.layer.borderColor = UIColor.white.cgColor
+        
       } else {
         titleLabel.textColor = textColor
         container.backgroundColor = unSelectedBackgroundColor
+        container.layer.borderColor = UIColor.clear.cgColor
       }
     }
   }
@@ -30,8 +33,8 @@ final class TabItemView: UIView {
     
     setupLabel()
     container.backgroundColor = unSelectedBackgroundColor
-    container.layer.cornerRadius = 3
-    
+//    container.layer.cornerRadius = frame.height/2
+//    container.layer.borderWidth = 1
   }
   
   required public init?(coder aDecoder: NSCoder) {
