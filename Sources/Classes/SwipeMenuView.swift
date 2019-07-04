@@ -56,7 +56,7 @@ public struct SwipeMenuViewOptions {
       }
       
       public struct TopUp {
-        public var height: CGFloat = 2.0
+        public var height: CGFloat = 3.0
       }
       
       /// AdditionView side margin. Defaults to `0.0`.
