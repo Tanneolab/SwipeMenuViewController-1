@@ -199,6 +199,11 @@ open class TabView: UIScrollView {
         }
 
         containerView.backgroundColor = .clear
+      if options.addition == .topUp {
+        let line = UIView(frame: CGRect(x: 0, y: 9, width: containerView.frame.width, height: 1.5))
+        line.backgroundColor = options.additionView.backgroundColor
+        containerView.addSubview(line)
+      }
         addSubview(containerView)
     }
 
@@ -353,20 +358,21 @@ extension TabView {
         switch options.addition {
         case .topUp:
           let itemView = itemViews[currentIndex]
+          
           let imageView = UIImageView(image: options.additionView.backgroundImage)
-          
           imageView.contentMode = .center
-          
           additionView = UIView(frame: CGRect(x: 0,
-                                              y: 0,
+                                              y: 2,
                                               width: itemView.frame.width - options.additionView.padding.horizontal,
                                               height: options.additionView.topup.height))
           
-          imageView.frame = CGRect(x: additionView.frame.width/2 - 10, y: -5, width: 20, height: 20)
+          imageView.frame = CGRect(x: additionView.frame.width/2 - 7, y: 0, width: 14, height: 7)
+          imageView.contentMode = .scaleAspectFill
           additionView.addSubview(imageView)
           
           additionView.backgroundColor = .clear//options.additionView.backgroundColor
           containerView.addSubview(additionView)
+          
         case .underline:
             let itemView = itemViews[currentIndex]
             additionView = UIView(frame: CGRect(x: itemView.frame.origin.x + options.additionView.padding.left, y: itemView.frame.origin.y + options.additionView.padding.vertical, width: itemView.frame.width - options.additionView.padding.horizontal, height: options.additionView.underline.height))
