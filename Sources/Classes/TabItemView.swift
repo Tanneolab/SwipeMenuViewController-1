@@ -11,6 +11,8 @@ final class TabItemView: UIView {
   public var selectedTextColor: UIColor = .white
   public var container: UIView = UIView()
   
+  private(set) var isHasTopUpAdditionView: Bool = false
+  
   public var isSelected: Bool = false {
     didSet {
       if isSelected {
@@ -26,11 +28,15 @@ final class TabItemView: UIView {
     }
   }
   
-  
+  public init(with frame: CGRect, hasAdditionViewTopUp: Bool) {
+    super.init(frame: frame)
+    isHasTopUpAdditionView = hasAdditionViewTopUp
+    setupLabel()
+    container.backgroundColor = unSelectedBackgroundColor
+  }
   
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    
     setupLabel()
     container.backgroundColor = unSelectedBackgroundColor
 //    container.layer.cornerRadius = frame.height/2
@@ -69,11 +75,13 @@ final class TabItemView: UIView {
       ])
     
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
+    let topConstraint: CGFloat = isHasTopUpAdditionView ? 16 : 12
+    let bottomConstraint: CGFloat = isHasTopUpAdditionView ? -6 : -12
     NSLayoutConstraint.activate([
-      titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
+      titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: topConstraint),
       titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8),
       titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8),
-      titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12)
+      titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: bottomConstraint)
       ])
   }
 }

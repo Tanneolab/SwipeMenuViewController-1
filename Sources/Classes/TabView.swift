@@ -216,7 +216,8 @@ open class TabView: UIScrollView {
         var xPosition: CGFloat = 0
 
         for index in 0..<itemCount {
-            let tabItemView = TabItemView(frame: CGRect(x: xPosition, y: 0, width: options.itemView.width, height: containerView.frame.size.height))
+          
+            let tabItemView = TabItemView(with: CGRect(x: xPosition, y: 0, width: options.itemView.width, height: containerView.frame.size.height), hasAdditionViewTopUp: options.addition == .topUp)
             tabItemView.translatesAutoresizingMaskIntoConstraints = false
             tabItemView.clipsToBounds = options.clipsToBounds
             if let title = dataSource.tabView(self, titleForItemAt: index) {
@@ -227,7 +228,7 @@ open class TabView: UIScrollView {
                 tabItemView.selectedBackgroundColor = options.itemView.selectedBackgroundColor
                 tabItemView.unSelectedBackgroundColor = options.itemView.unSelectedBackgroundColor
             }
-
+   
             tabItemView.isSelected = index == currentIndex
 
             switch options.style {
@@ -260,7 +261,6 @@ open class TabView: UIScrollView {
 
                 containerView.addArrangedSubview(tabItemView)
             }
-
             itemViews.append(tabItemView)
 
             NSLayoutConstraint.activate([
@@ -358,7 +358,6 @@ extension TabView {
         switch options.addition {
         case .topUp:
           let itemView = itemViews[currentIndex]
-          
           let imageView = UIImageView(image: options.additionView.backgroundImage)
           imageView.contentMode = .center
           additionView = UIView(frame: CGRect(x: 0,
